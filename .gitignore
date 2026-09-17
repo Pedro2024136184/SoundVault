@@ -1,0 +1,22 @@
+# Environment & Secrets (CRITICAL: Do not commit credentials)
+.env
+.cache
+
+# Maven & Build artifacts
+target/
+.maven/
+
+# Runtime Cache & Covers
+cache/
+
+# IDE & Editor files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS files
+Thumbs.db
+.DS_Store
