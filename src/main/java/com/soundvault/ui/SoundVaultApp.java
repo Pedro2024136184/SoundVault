@@ -73,7 +73,7 @@ public class SoundVaultApp extends Application {
         DownloadManagerBar downloadBar = new DownloadManagerBar(slskdService, () -> switchView("Soulseek"));
         rootLayout.setBottom(downloadBar);
 
-        Scene scene = new Scene(rootLayout, 1320, 840);
+        Scene scene = new Scene(rootLayout, 1400, 950);
         themeService.applyTheme(scene);
 
         // Ícone da janela
@@ -84,9 +84,10 @@ public class SoundVaultApp extends Application {
         } catch (Exception ignored) {}
 
         stage.setTitle("The SoundVault - Ultimate Manager");
-        stage.setMinWidth(1080);
-        stage.setMinHeight(720);
+        stage.setMinWidth(1100);
+        stage.setMinHeight(800);
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
 
         // Aba inicial padrão

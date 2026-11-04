@@ -1,6 +1,8 @@
 # Environment & Secrets (CRITICAL: Do not commit credentials)
 .env
 .cache
+*.yml
+slskd*.yml
 
 # Maven & Build artifacts
 target/
@@ -8,7 +10,8 @@ target/
 
 # Runtime Cache & Covers
 cache/
-
+.jdk/
+.slskd/
 # IDE & Editor files
 .idea/
 *.iml

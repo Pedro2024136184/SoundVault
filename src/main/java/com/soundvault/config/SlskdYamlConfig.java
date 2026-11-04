@@ -100,9 +100,9 @@ public class SlskdYamlConfig {
     }
 
     public synchronized void syncApiKey(String apiKey) {
-        setProperty("web.authentication.api_keys.my_api_key.key", apiKey);
-        setProperty("web.authentication.api_keys.my_api_key.role", "administrator");
-        setProperty("web.authentication.api_keys.my_api_key.cidr", "0.0.0.0/0,::/0");
+        setProperty("web.authentication.apiKeys.myapikey.key", apiKey);
+        setProperty("web.authentication.apiKeys.myapikey.role", "administrator");
+        setProperty("web.authentication.apiKeys.myapikey.cidr", "0.0.0.0/0,::/0");
     }
 
     public synchronized void save() throws Exception {
@@ -131,15 +131,15 @@ public class SlskdYamlConfig {
                 soulseek:
                   username: ""
                   password: ""
-                  listen_port: 50300
+                  listenPort: 50300
 
                 web:
                   authentication:
                     disabled: false
                     username: slskd
                     password: slskd
-                    api_keys:
-                      my_api_key:
+                    apiKeys:
+                      myapikey:
                         key: ""
                         role: administrator
                         cidr: "0.0.0.0/0,::/0"
@@ -147,10 +147,10 @@ public class SlskdYamlConfig {
                 global:
                   download:
                     slots: 100
-                    speed_limit: 2000000
+                    speedLimit: 2000000
                   upload:
                     slots: 5
-                    speed_limit: 2000000
+                    speedLimit: 2000000
                 """;
             Files.writeString(yamlPath, template);
             AppLogger.log("Template base slskd.yml injetado em: " + yamlPath);

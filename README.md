@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/main/resources/icons/logo.png" alt="SoundVault Logo" width="120" height="120" style="border-radius: 20px;" />
+  <img src="src/main/resources/icons/logo.png" alt="SoundVault Logo" width="140" height="140" style="border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
 </p>
 
 <h1 align="center">SoundVault (Java Edition)</h1>
@@ -20,13 +20,13 @@
 
 ---
 
-## Visão Geral
+## 🎵 Visão Geral
 
 O **SoundVault** é uma aplicação desktop de alta performance desenvolvida em **Java 21** e **JavaFX 21** com recurso a **Virtual Threads (Project Loom)**. Foi desenhada para audiófilos, colecionadores e entusiastas musicais que pretendem catalogar a sua coleção física de CDs/Vinis, sincronizar a biblioteca do Spotify, indexar álbuns FLAC locais e descarregar automaticamente faixas e álbuns em qualidade Hi-Res através da rede descentralizada **Soulseek (slskd)**.
 
 ---
 
-## Funcionalidades Principais
+## ✨ Funcionalidades Principais
 
 ### 1. Sincronização & Análise Spotify
 - **Liked Songs & Playlists**: Carrega faixas favoritas e playlists do utilizador através da API oficial do Spotify.
@@ -37,7 +37,7 @@ O **SoundVault** é uma aplicação desktop de alta performance desenvolvida em 
 - **Pesquisa & Download Automático de FLACs**: Seleciona o melhor par na rede com base na velocidade, slots de envio livres e integridade do alinhamento do álbum.
 - **Fallback para Álbuns Homónimos / 0 Resultados**:
   - Resolve problemas de álbuns homónimos (ex: *Deftones* dos *Deftones* ou *Metallica* dos *Metallica*).
-  - Em caso de 0 resultados, obtém o alinhamento de faixas oficiais via Spotify e pesquisa pela primeira faixa (*Hexagram*).
+  - Em caso de 0 resultados, obtém o alinhamento de faixas oficiais via Spotify e pesquisa pela primeira faixa.
   - **4 Filtros Rigorosos Anti-Erro**:
     1. **Verificação de Artista**: O caminho da pasta ou os ficheiros devem conter o nome do artista.
     2. **Multi-Track Cross Match**: A pasta tem de conter no mínimo 2 ou mais faixas coincidentes com o alinhamento oficial do álbum (rejeitando compilações acidentais como *Various Artists* ou *Greatest Hits* genéricos).
@@ -68,8 +68,8 @@ O **SoundVault** é uma aplicação desktop de alta performance desenvolvida em 
 - Acesso rápido no próprio modal para adicionar à Wishlist e iniciar download FLAC via Soulseek.
 - Fecho intuitivo com `ESC`, botão `✕` ou clique exterior.
 
-### 7. Notificações Nativas do Windows
-- Integração nativa com a barra de tarefas do Windows via `java.awt.SystemTray`.
+### 7. Notificações Nativas
+- Integração com a barra de tarefas do sistema via `java.awt.SystemTray`.
 - Emite alertas quando:
   - Uma transferência termina no Soulseek.
   - Um álbum é adicionado à Lista de Desejos.
@@ -86,7 +86,7 @@ O **SoundVault** é uma aplicação desktop de alta performance desenvolvida em 
 
 ---
 
-## Arquitetura & Tecnologias
+## 🏛️ Arquitetura & Tecnologias
 
 | Componente | Tecnologia | Função |
 |---|---|---|
@@ -96,14 +96,14 @@ O **SoundVault** é uma aplicação desktop de alta performance desenvolvida em 
 | **Metadata & Streaming** | Spotify Web API | Autenticação OAuth2 PKCE com renovação de tokens |
 | **Tagging & Metadados** | JAudiotagger | Leitura de tags FLAC/VorbisComment em disco |
 | **Serialização** | Jackson 2.17 | JSON/YAML para persistência e cache |
-| **Build & Testes** | Maven Wrapper & JUnit 5 | 31 testes unitários automatizados |
+| **Build & Testes** | Maven Wrapper & JUnit 5 | 31 testes automatizados isolados |
 
 ---
 
-## Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
 ```
-SoundVaultJava/
+SoundVault/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/soundvault/
@@ -118,35 +118,49 @@ SoundVaultJava/
 │   │   │   └── util/                          # StringNormalizer, AppLogger
 │   │   └── resources/
 │   │       ├── css/                           # Folha de estilo e variáveis de tema
-│   │       └── icons/                         # Logotipo e ícone oficial
+│   │       └── icons/                         # Logotipo e ícones oficiais
 │   └── test/java/com/soundvault/              # 31 testes unitários (JUnit 5)
 ├── .env.example                               # Modelo de variáveis de ambiente
-├── .gitignore                                 # Proteção de segredos e exclusão de binários
-├── pom.xml                                    # Dependências e plugins Maven
-└── iniciar.bat                                # Script de arranque rápido
+├── .gitignore                                 # Proteção rigorosa de credenciais e caches
+├── install.bat                                # Instalador 1-clique automatizado e portátil (Windows)
+├── install.ps1                                # Script PowerShell de configuração automática
+├── iniciar.bat                                # Script de arranque rápido (Windows)
+├── iniciar.sh                                 # Script de arranque rápido (Linux/macOS)
+└── pom.xml                                    # Dependências e plugins Maven
 ```
 
 ---
 
-## Como Configurar e Executar
+## 🚀 Como Configurar e Executar
 
-### Pré-requisitos
-- **Java JDK 21** ou superior instalado e configurado no `PATH`.
-- Instância do **slskd** (Soulseek Daemon) a correr (normalmente na porta `5030`).
+Existem duas formas de colocar o SoundVault a funcionar:
 
-### 1. Clonar o Repositório
+### Método 1: Instalação Automática Portátil (Recomendado para Windows)
+Não precisas de instalar o Java nem configurar variáveis de ambiente:
+1. Descarrega ou clona o repositório.
+2. Clica duas vezes em **`install.bat`**:
+   - Transfere automaticamente o motor **Java 21 Portátil** e o **slskd (Soulseek) Portátil**.
+   - Abre o Spotify Developer Dashboard para obteres o teu `Client ID` e `Client Secret` gratuitos.
+   - Pede-te as tuas credenciais do Soulseek e pastas de música, configurando o ficheiro `.env` e o motor automaticamente.
+3. Clica duas vezes em **`iniciar.bat`** para abrir o SoundVault!
+
+---
+
+### Método 2: Configuração Manual
+
+#### 1. Clonar o Repositório
 ```bash
 git clone https://github.com/Pedro2024136184/SoundVault.git
 cd SoundVault
 ```
 
-### 2. Configurar o Ficheiro `.env`
+#### 2. Configurar o Ficheiro `.env`
 Copia o ficheiro de exemplo `.env.example` para `.env`:
 ```bash
-copy .env.example .env
+cp .env.example .env
 ```
 
-Edita o `.env` com as tuas definições:
+Preenche o ficheiro `.env` com as tuas definições:
 ```ini
 # Credenciais da API do Spotify (developer.spotify.com)
 SPOTIPY_CLIENT_ID=teu_client_id_aqui
@@ -157,38 +171,56 @@ SPOTIPY_REDIRECT_URI=http://127.0.0.1:8080/callback
 SLSKD_HOST=http://localhost
 SLSKD_PORT=5030
 SLSKD_API_KEY=tua_slskd_api_key_aqui
-SLSKD_EXE_PATH=C:\caminho\para\slskd.exe
+SLSKD_EXE_PATH=C:/caminho/para/slskd.exe
 
 # Caminho da tua biblioteca local de músicas
-LOCAL_LIBRARY_PATH=C:/Users/teu_user/Music/Albums
+LOCAL_LIBRARY_PATH=C:/Users/username/Music/Albums
 ```
+*(Também podes configurar e alterar estes campos diretamente na interface gráfica, na aba **Definições**).*
 
-### 3. Compilar e Executar os Testes
-```powershell
-.\mvnw.cmd test
-```
-> Todos os 31 testes unitários serão executados, validando a integridade das queries, modelos, persistência e filtros anti-erro de downloads.
-
-### 4. Iniciar a Aplicação
-Podes iniciar diretamente via Maven Wrapper:
-```powershell
-.\mvnw.cmd javafx:run
-```
-Ou executar o script:
+#### 3. Iniciar a Aplicação
+No Windows:
 ```powershell
 .\iniciar.bat
 ```
+No Linux / macOS:
+```bash
+chmod +x iniciar.sh mvnw
+./iniciar.sh
+```
+Ou diretamente através do Maven Wrapper:
+```bash
+./mvnw javafx:run
+```
 
 ---
 
-## Segurança
+## 🧪 Testes Automatizados
 
-- O ficheiro `.gitignore` está configurado para **nunca** enviar ficheiros de credenciais (`.env`), tokens de autenticação (`.cache`) ou a cache de capas (`cache/`).
-- Para partilhar o projeto ou colaborar, utiliza sempre o `.env.example`.
+O SoundVault inclui uma suíte completa de testes unitários isolados:
+```bash
+./mvnw test
+```
+> Todos os 31 testes unitários serão executados, validando a integridade das queries, modelos, persistência de dados, normalização de strings e filtros anti-erro de downloads.
 
 ---
 
-## Licença
+## 🔒 Segurança e Privacidade
 
-Este projeto é disponibilizado sob a licença [MIT](LICENSE).
-Desenvolvido para gestão e preservação audiófila de coleções musicais.
+- O ficheiro `.gitignore` está configurado para **nunca** enviar ficheiros de credenciais (`.env`), ficheiros de configuração (`slskd*.yml`, `*.yml`), tokens de autenticação (`.cache`) ou a cache local de imagens (`cache/`).
+- O código-fonte não armazena nenhuma chave fixa nem caminhos privados do sistema.
+
+---
+
+## ⚖️ Aviso Legal / Disclaimer
+
+> [!NOTE]
+> O **SoundVault** é uma ferramenta de gestão, catalogação e preservação de coleções musicais desenvolvida estritamente para **fins educacionais, de investigação e uso pessoal**.
+> A aplicação comunica com a rede descentralizada Soulseek através da API oficial do daemon *slskd*. O desenvolvedor do SoundVault **não armazena, hospeda nem distribui qualquer ficheiro de áudio com direitos de autor**. Os utilizadores são os únicos responsáveis pelo cumprimento da legislação de direitos de autor aplicável nas respetivas jurisdições e pelos termos de serviço dos serviços de terceiros utilizados.
+
+---
+
+## 📄 Licença
+
+Este projeto é disponibilizado sob a licença [MIT](LICENSE).  
+Desenvolvido para gestão, catalogação e preservação audiófila de coleções musicais.

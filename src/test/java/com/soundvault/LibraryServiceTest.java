@@ -2,23 +2,48 @@ package com.soundvault;
 
 import com.soundvault.config.AppConfig;
 import com.soundvault.service.LibraryService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryServiceTest {
 
-    @Test
-    void testLibraryIndexing() {
+    private String originalPath;
+
+    @BeforeEach
+    void setUp(@TempDir Path tempDir) throws IOException {
         AppConfig config = AppConfig.getInstance();
         config.load();
-        String path = config.getLocalLibraryPath();
-        System.out.println("Configured Library Path: " + path);
-        File dir = new File(path);
-        assertTrue(dir.exists(), "A pasta de música configurada deve existir no sistema!");
+        originalPath = config.getLocalLibraryPath();
 
+        // Cria estrutura de álbuns simulada em pasta temporária isolada
+        Path paranoidDir = tempDir.resolve("Black Sabbath").resolve("Paranoid");
+        Files.createDirectories(paranoidDir);
+        Files.createFile(paranoidDir.resolve("01 - War Pigs.flac"));
+
+        Path dirtDir = tempDir.resolve("Alice In Chains").resolve("Dirt (2022 Remaster)");
+        Files.createDirectories(dirtDir);
+        Files.createFile(dirtDir.resolve("01 - Them Bones.flac"));
+
+        config.setLocalLibraryPath(tempDir.toString());
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (originalPath != null) {
+            AppConfig.getInstance().setLocalLibraryPath(originalPath);
+        }
+    }
+
+    @Test
+    void testLibraryIndexing() {
         LibraryService library = new LibraryService();
         library.updateCache(true);
 
@@ -30,15 +55,14 @@ class LibraryServiceTest {
     @Test
     void testCheckAlbumExistsWithRemasterSuffix() {
         LibraryService library = new LibraryService();
-        library.updateCache(false);
+        library.updateCache(true);
 
-        // Paranoid existe no disco em C:\Users\pedro\Music\Albums\Black Sabbath\Paranoid
         assertTrue(library.checkAlbumExists("Paranoid (Remastered 2023)"), "Deve encontrar Paranoid mesmo com sufixo (Remastered 2023)");
         assertTrue(library.checkAlbumExists("Paranoid (2020 Remaster)"), "Deve encontrar Paranoid mesmo com sufixo (2020 Remaster)");
         assertTrue(library.checkAlbumExists("Paranoid"), "Deve encontrar Paranoid com o nome exato");
 
-        // Dirt existe no disco em C:\Users\pedro\Music\Albums\Alice In Chains\Dirt (2022 Remaster)
         assertTrue(library.checkAlbumExists("Dirt"), "Deve encontrar Dirt mesmo se a pasta tiver (2022 Remaster) e o Spotify só disser Dirt");
         assertTrue(library.checkAlbumExists("Dirt (Remastered)"), "Deve encontrar Dirt mesmo se o Spotify disser Dirt (Remastered)");
     }
 }
+
